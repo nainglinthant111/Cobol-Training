@@ -1,0 +1,37 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.  PGMDSP01.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT CUSTOMER-IN ASSIGN TO 'customerIn.txt'
+           ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT SORT-FILE ASSIGN TO 'workfile.txt'.
+           SELECT CUSTOMER-OUT ASSIGN TO 'customerOut.txt'
+           ORGANIZATION IS LINE SEQUENTIAL.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD CUSTOMER-IN.
+       01  CUSTOMER-RECORD.
+           05  CUSTOMER-ID    PIC 9(4).
+           05  CUSTOMER-NAME  PIC X(30).
+           05  CUSTOMER-AGE   PIC 9(2).
+
+       SD SORT-FILE.
+       01 SORT-FILE-REC.
+           05  WS-CUSTOMER-ID        PIC 9(4).
+           05  FILLER               PIC X(32).
+
+       FD CUSTOMER-OUT.
+       01  CUSTOMER-OUT-RECORD.
+           05  CUSTOMER-ID-OUT    PIC 9(4).
+           05  CUSTOMER-NAME-OUT  PIC X(30).
+           05  CUSTOMER-AGE-OUT   PIC 9(2).
+       PROCEDURE DIVISION.
+       000-SORT-STATEMENT.
+           SORT SORT-FILE
+             ON ASCENDING KEY WS-CUSTOMER-ID
+             USING CUSTOMER-IN
+             GIVING CUSTOMER-OUT.
+           END-SORT.
+           STOP RUN.

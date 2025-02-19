@@ -1,20 +1,22 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. MultiDimTableExample.
+       PROGRAM-ID. SEARCH.
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-       01 Scores.
-           05 Ws-Class OCCURS 3 TIMES.
-               10 Ws-Student PIC 99 OCCURS 4 TIMES VALUE ZERO.
-       01 J PIC 9.
-
+        01 WS-Table.
+         05 WS-Element PIC 9(2) OCCURS 5 TIMES INDEXED BY NameIndex.
+         
        PROCEDURE DIVISION.
-           MOVE 85 TO Ws-Class(1, 1)
-           MOVE 90 TO Ws-Class(1, 2)
-           MOVE 75 TO Ws-Class(2, 1)
+         MOVE 10 TO WS-Element(1)
+         MOVE 20 TO WS-Element(2)
+         MOVE 30 TO WS-Element(3)
+         MOVE 40 TO WS-Element(4)
+         MOVE 50 TO WS-Element(5)
 
-           DISPLAY "Scores in Class 1:"
-           PERFORM VARYING J FROM 1 BY 1 UNTIL J > 4
-               DISPLAY "Student " J ": " Ws-Student(1, J)
-           END-PERFORM
+         SET NameIndex TO 1
+         SEARCH WS-Element
+             WHEN WS-Element(NameIndex) = 30
+                 DISPLAY "Found at index: " NameIndex
+         END-SEARCH.
+
            STOP RUN.
